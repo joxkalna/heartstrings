@@ -67,18 +67,10 @@ heartstrings
 To start the development server, run:
 
 ```
-npm start
+npx webpack serve
 ```
 
 This will launch the application in your default web browser.
-
-### Building for Production
-
-To create a production build, run:
-
-```
-npm run build
-```
 
 ## License
 
