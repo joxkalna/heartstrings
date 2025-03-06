@@ -1,0 +1,16 @@
+.message {
+  max-width: 70%;
+  padding: 10px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+}
+
+.sender {
+  background-color: #d1c4e9;
+  text-align: left;
+}
+
+.receiver {
+  background-color: #f0f0f0;
+  text-align: right;
+}
