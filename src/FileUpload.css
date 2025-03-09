@@ -1,0 +1,39 @@
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    gap: 15px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+  }
+  
+  .message {
+    padding: 10px;
+    border-radius: 8px;
+    max-width: 60%;
+  }
+  
+  .message-madara {
+    align-self: flex-start;
+    background-color: #d1f0f7;
+    color: #000;
+  }
+  
+  .message-maija {
+    align-self: flex-end;
+    background-color: #ffe2b5;
+    color: #000;
+  }
+  
+  .message-unknown {
+    background-color: #f5f5f5;
+    color: #999;
+  }
+  
+  small {
+    display: block;
+    margin-top: 5px;
+    font-size: 0.8em;
+    color: #555;
+  }
+  
