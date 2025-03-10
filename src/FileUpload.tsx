@@ -7,30 +7,32 @@ interface Message {
   displayName: string | null;
   from: string;
 }
-// Parse relevant senders from .env
+
+// Log all environment variables
+console.log('All environment variables:', process.env);
+
 const relevantSenders = process.env.REACT_APP_RELEVANT_SENDERS
   ? process.env.REACT_APP_RELEVANT_SENDERS.split(",")
   : [];
+console.log("Relevant Senders:", relevantSenders);
 
-  console.log('show me relevant senders', relevantSenders);
+const displayNameKeyword = process.env.REACT_APP_DISPLAY_NAME_KEYWORD || "maija";
 
-// Extract display name keyword
-const displayNameKeyword = process.env.REACT_APP_DISPLAY_NAME_KEYWORD
-  ? process.env.REACT_APP_DISPLAY_NAME_KEYWORD.toLowerCase()
-  : "maija";
+console.log('Display Name Keyword from .env:', displayNameKeyword);
 
-// Utility function to clean sender names
 const getSenderDetails = (from: string, displayName: string | null) => {
-  // Retrieve the name dynamically from the .env file
+  const senderEnvVariable = process.env[`REACT_APP_NAME_${from.replace(/:/g, "_")}`];
+  console.log(`Accessing sender name for ${from}: ${senderEnvVariable}`);
+  
   const name =
-    process.env[`REACT_APP_NAME_${from.replace(/:/g, "_")}`] ||
+    senderEnvVariable ||
     (displayName && displayName.includes("Maija") ? "Maija" : "Unknown");
+  console.log(`Fetched name for ${from}: ${name}`);
 
-  // Determine CSS class based on `from`
   const cssClass = from === "8:traka_mondzole" ? "madara" : "maija";
-
   return { name, cssClass };
 };
+
 const isRelevantMessage = (msg: any): boolean => {
   // Include messages from specific senders
   if (relevantSenders.includes(msg.from)) {
@@ -44,19 +46,24 @@ const isRelevantMessage = (msg: any): boolean => {
   }
 
   return false;
-}
+};
 
 const FileUpload = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [error, setError] = useState<string | null>(null);
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log('Relevant senders:', relevantSenders);
+    console.log('Display name keyword:', displayNameKeyword);
+
     const file = event.target.files?.[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = (e) => {
         try {
           const json = JSON.parse(e.target?.result as string);
+          console.log("Parsed JSON structure:", json);
+
           if (json && json.conversations) {
             const allMessages: Message[] = json.conversations
               .flatMap((conv: any) => conv.MessageList)
@@ -91,17 +98,21 @@ const FileUpload = () => {
       )}
 
       <div className="chat-container">
-        {messages.map((msg, index) => {
-          const { name, cssClass } = getSenderDetails(msg.from, msg.displayName);
-          return (
-            <div key={index} className={`message message-${cssClass}`}>
-              <p>
-                <strong>{name}</strong>: {msg.content}
-              </p>
-              <small>{new Date(msg.originalarrivaltime).toLocaleString()}</small>
-            </div>
-          );
-        })}
+        {messages.length === 0 ? (
+          <p>No relevant messages found.</p>
+        ) : (
+          messages.map((msg, index) => {
+            const { name, cssClass } = getSenderDetails(msg.from, msg.displayName);
+            return (
+              <div key={index} className={`message message-${cssClass}`}>
+                <p>
+                  <strong>{name}</strong>: {msg.content}
+                </p>
+                <small>{new Date(msg.originalarrivaltime).toLocaleString()}</small>
+              </div>
+            );
+          })
+        )}
       </div>
     </div>
   );
