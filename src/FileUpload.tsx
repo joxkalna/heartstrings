@@ -24,15 +24,15 @@ const cleanMessage = (msg: any): Message => {
     callType = "Started";
     // Extract the duration
     const durationMatch = cleanedContent.match(/<duration>([\d\.]+)<\/duration>/);
-    duration = durationMatch ? durationMatch[1] : "Unknown";
-    cleanedContent = `📞 Call Started: ${msg.displayName || "Unknown"} to Mojo`;  // Clean content for call started
+    duration = durationMatch ? durationMatch[1] : "Mom";
+    cleanedContent = `📞 Call Started: ${msg.displayName || "Mom"} to Joji`;  // Clean content for call started
   } else if (cleanedContent.includes('type="ended"')) {
     isCall = true;
     callType = "Ended";
     // Extract the duration
     const durationMatch = cleanedContent.match(/<duration>([\d\.]+)<\/duration>/);
-    duration = durationMatch ? durationMatch[1] : "Unknown";
-    cleanedContent = `📞 Call Ended: ${msg.displayName || "Unknown"} to Mojo (${duration} minutes)`;  // Clean content for call ended
+    duration = durationMatch ? durationMatch[1] : "Mom";
+    cleanedContent = `📞 Call Ended: ${msg.displayName || "Mom"} to Joji (${duration} minutes)`;  // Clean content for call ended
   }
 
   return { ...msg, content: cleanedContent, isCall, callType, duration };
