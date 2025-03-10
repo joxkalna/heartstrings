@@ -2,6 +2,7 @@
 logs
 *.log
 npm-debug.log*
+setup.md
 
 # Dependency directories
 node_modules/
@@ -25,3 +26,5 @@ Thumbs.db
 .idea/
 *.iml
 
+# message.json
+message.json
